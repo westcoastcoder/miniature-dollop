@@ -20,10 +20,6 @@ soup = BeautifulSoup(html, 'html.parser')
 title = soup.find(id="firstHeading")
 print(title.text)
 
-# I finally figured this fucking .find() function out. If it returns -1 it
-# means the searched value is not present. So if you try using 'True'
-# you'll always get a tripped 'if' statement because -1 has a value!
-
 tags = soup.find(id='bodyContent').find_all('a')
 
 potentialLinks = []
