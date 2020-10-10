@@ -2,32 +2,21 @@
 # the help of a FCC blog post and Dr. Chuck's book
 
 from bs4 import BeautifulSoup
-import request
-import urllib.request
-import urllib.parse
-import urllib.error
-import ssl
+import requests
+
 # import random
 
-#
-
-# I do not fully understand this code as it is from Dr. Chuck's book.
-# It looks like this may be replaced with one line of code
-# ctx = ssl.create_default_context()
-# ctx.check_hostname = False
-# ctx.verify_mode = ssl.CERT_NONE
+# After a bit more research, it looks like requests is the better module to use
+# at this stage (AKA as a beginner)
 
 url = input()
 
-# html = urllib.request.urlopen(url, context=ctx).read()
-# test code re: above comment regarding ssl
-# update: this works. Need to read ssl documentation to understand why
+# Requests handles the ssl automatically (default is set to true, so I guess
+# Wikipedia has there certs set up...)
 
-# OK. Still some learning to do. This is not validating the source, which on a
-# larger scale would create security issues.
-html = urllib.request.urlopen(url, context=ssl._create_unverified_context())
+html = requests.get(url)
 
-soup = BeautifulSoup(html, 'html.parser')
+soup = BeautifulSoup(html.content, 'html.parser')
 
 title = soup.find(id="firstHeading")
 print(title.text)
@@ -49,7 +38,5 @@ for tag in tags:
         badLinks.append(tag)
         continue
 
-
-print(potentialLinks[0])
-print('----------------------------------------')
-print(badLinks)
+for link in potentialLinks:
+    print(link)
