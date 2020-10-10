@@ -23,20 +23,32 @@ print(title.text)
 
 tags = soup.find(id='bodyContent').find_all('a')
 
-potentialLinks = []
+funLinks = []
 badLinks = []
 
 for tag in tags:
     try:
         # We only want wikipedia links (no external links)
+        # and links that are fun (not deadends)
         if (tag['href'].find("/wiki/") != -1
-                and tag['href'].find("https://") != 0):
-            potentialLinks.append(tag['href'])
+                and tag['href'].find("https://") != 0
+                and tag['href'].find("/Category:") == -1
+                and tag['href'].find("(identifier)") == -1
+                and tag['href'].find("/File:") == -1
+                and tag['href'].find("/Help:") == -1
+                and tag['href'].find("Special:BookSources") == -1
+                and tag['href'].find("/Template:") == -1):
+            funLinks.append(tag['href'])
     # This is to catch any errors where an href attribute is not present
     except KeyError:
         print("Error: No href attribute present in 'a' tag.")
         badLinks.append(tag)
         continue
 
-for link in potentialLinks:
+for link in badLinks:
+    print(link)
+
+print('********************')
+
+for link in funLinks:
     print(link)
